@@ -23,13 +23,13 @@ export default defineConfig({
     Vuetify({
       autoImport: true,
       styles: {
-        configFile: 'src/styles/settings.scss',
+        configFile: 'src/styles/variables/_vuetify.scss',
       },
     }),
     Components(),
     Fonts({
       google: {
-        families: [ {
+        families: [{
           name: 'Roboto',
           styles: 'wght@100;300;400;500;700;900',
         }],
@@ -39,6 +39,9 @@ export default defineConfig({
       imports: [
         'vue',
         'vue-router',
+        '@vueuse/core',
+        '@vueuse/math',
+        'pinia',
       ],
       dts: true,
       eslintrc: {
@@ -51,6 +54,10 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
+      '@core': fileURLToPath(new URL('./src/@core', import.meta.url)),
+      '@layouts': fileURLToPath(new URL('./src/@layouts', import.meta.url)),
+      '@styles': fileURLToPath(new URL('./src/styles/', import.meta.url)),
+      '@configured-variables': fileURLToPath(new URL('./src/styles/variables/_template.scss', import.meta.url)),
     },
     extensions: [
       '.js',

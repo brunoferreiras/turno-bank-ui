@@ -5,12 +5,37 @@
  */
 
 // Composables
-import { createRouter, createWebHistory } from 'vue-router/auto'
-import { setupLayouts } from 'virtual:generated-layouts'
+import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  extendRoutes: setupLayouts,
+  routes: [
+    { path: '/', redirect: '/dashboard' },
+    {
+      path: '/',
+      component: () => import('../layouts/default.vue'),
+      children: [
+        {
+          path: 'dashboard',
+          component: () => import('../pages/dashboard.vue'),
+        },
+      ],
+    },
+    {
+      path: '/',
+      component: () => import('../layouts/blank.vue'),
+      children: [
+        {
+          path: 'login',
+          component: () => import('../pages/login.vue'),
+        },
+        {
+          path: 'register',
+          component: () => import('../pages/register.vue'),
+        },
+      ],
+    },
+  ],
 })
 
 export default router

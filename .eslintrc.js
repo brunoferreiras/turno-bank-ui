@@ -14,6 +14,7 @@ module.exports = {
     'eslint:recommended',
     '@vue/eslint-config-typescript',
   ],
+  ignorePatterns: ['src/@iconify/*.js', 'node_modules', 'dist', '*.d.ts'],
   rules: {
     'vue/multi-word-component-names': 'off',
   },

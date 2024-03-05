@@ -1,12 +1,14 @@
-<template>
-  <v-app>
-    <DefaultBar />
+<script lang="ts" setup>
+import DefaultLayoutWithVerticalNav from './components/DefaultLayoutWithVerticalNav.vue'
+</script>
 
-    <DefaultView />
-  </v-app>
+<template>
+  <DefaultLayoutWithVerticalNav>
+    <RouterView />
+  </DefaultLayoutWithVerticalNav>
 </template>
 
-<script lang="ts" setup>
-  import DefaultBar from './default/AppBar.vue'
-  import DefaultView from './default/View.vue'
-</script>
+<style lang="scss">
+// As we are using `layouts` plugin we need its styles to be imported
+@use "@layouts/styles/default-layout";
+</style>
