@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { httpClient } from '@/services'
 
-export interface ITransaction {
+export interface ICheck {
   id: number
   description: string
   amount: number
@@ -9,9 +9,10 @@ export interface ITransaction {
   created_at: string
 }
 
-export interface TransactionsRequest {
+export interface ChecksRequest {
   page: number
   perPage: number
+  status: string
 }
 
 export interface PaginationResponse {
@@ -21,36 +22,36 @@ export interface PaginationResponse {
   per_page: number
 }
 
-export interface TransactionsResponse {
-  data: ITransaction[]
+export interface ChecksResponse {
+  data: ICheck[]
 }
 
-export interface TransactionsState {
-  transactions: TransactionsResponse | null
+export interface ChecksState {
+  checks: ChecksResponse | null
   pagination: PaginationResponse | null
   isLoading: boolean
 }
 
-export const useTransactionsStore = defineStore('transactions', {
-  state: (): TransactionsState => ({
-    transactions: null,
+export const useChecksStore = defineStore('checks', {
+  state: (): ChecksState => ({
+    checks: null,
     pagination: null,
     isLoading: false,
   }),
   getters: {},
   actions: {
-    setTransactions(transactions: TransactionsResponse) {
-      this.transactions = transactions
+    setChecks(checks: ChecksResponse) {
+      this.checks = checks
     },
     setPagination(pagination: PaginationResponse) {
       this.pagination = pagination
     },
-    async getTransactions({ page, perPage }: TransactionsRequest = { page: 1, perPage: 15 }) {
+    async getChecks({ page, perPage, status }: ChecksRequest = { page: 1, perPage: 15, status: 'pending' }) {
       this.isLoading = true
 
-      const { data } = await httpClient.get(`/accounts/transactions?page=${page}&perPage=${perPage}`)
+      const { data } = await httpClient.get(`/deposits?page=${page}&per_page=${perPage}&status=${status}`)
 
-      this.setTransactions(data.data)
+      this.setChecks(data.data)
       this.setPagination({
         current_page: data.current_page,
         last_page: data.last_page,

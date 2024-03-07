@@ -3,7 +3,7 @@ import { useAuthStore } from '../store/auth'
 
 export const httpClient = axios.create({
   baseURL: import.meta.env.VITE_BASE_API_URL,
-  timeout: 1000,
+  timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
@@ -11,9 +11,11 @@ export const httpClient = axios.create({
 })
 
 httpClient.interceptors.request.use(config => {
-  const { getToken } = useAuthStore()
-  if (getToken)
-    config.headers.Authorization = `Bearer ${getToken}`
+  const token = localStorage.getItem('@token')
+  config.headers.Authorization = `Bearer ${token}`;
+  // const authStore = useAuthStore()
+  // if (authStore.token)
+  //   config.headers.Authorization = `Bearer ${authStore.token}`
 
   return config
 })
@@ -22,11 +24,20 @@ httpClient.interceptors.response.use(
   response => response,
   error => {
     if (error.response.status === 401) {
-      const { logout } = useAuthStore()
-
-      logout()
+      // const { isAuthenticated, logout } = useAuthStore()
+      // if (isAuthenticated)
+      //   logout()
     }
+    let errorMessages = []
+    if (error.response.status === 422)
+      errorMessages = Object.values(error.response.data.errors).map((error: any) => error.join(', '))
 
-    return Promise.reject(error)
+    return {
+      ...error.response,
+      data: {
+        ...error.response.data,
+        errorMessages,
+      },
+    }
   },
 )

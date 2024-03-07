@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import logo from '@/assets/logo.svg?raw'
 import { useAuthStore } from '@/store/auth'
 
@@ -8,10 +8,13 @@ const form = ref({
   password: 'password',
 })
 
+const authStore = useAuthStore()
+
 const isPasswordVisible = ref(false)
+const errors = computed(() => authStore.errors)
+const isLoading = computed(() => authStore.isLoading)
 
 const onSubmit = () => {
-  const authStore = useAuthStore()
   const { username, password } = form.value
 
   authStore.login(username, password)
@@ -48,6 +51,17 @@ const onSubmit = () => {
         </p>
       </VCardText>
 
+      <VCardText v-if="errors.length">
+        <VAlert
+          v-for="(error, key) in errors"
+          :key="key"
+          color="error"
+          icon="$error"
+          :text="error"
+          closable
+        />
+      </VCardText>
+
       <VCardText>
         <VForm @submit.prevent="onSubmit">
           <VRow>
@@ -73,6 +87,7 @@ const onSubmit = () => {
 
               <VBtn
                 class="mt-4"
+                :loading="isLoading"
                 block
                 type="submit"
               >

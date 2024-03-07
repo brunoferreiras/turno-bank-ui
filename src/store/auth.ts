@@ -16,6 +16,7 @@ export interface AuthState {
   isLoading: boolean
   token: string | null
   user: IUser | null
+  errors: string[]
 }
 
 export const useAuthStore = defineStore('auth', {
@@ -23,6 +24,7 @@ export const useAuthStore = defineStore('auth', {
     isLoading: false,
     token: null,
     user: null,
+    errors: [],
   }),
   getters: {
     isAuthenticated() {
@@ -51,15 +53,24 @@ export const useAuthStore = defineStore('auth', {
 
       const response = await httpClient.post('/auth/login', { username, password })
 
+      if (response.status === 401) {
+        this.errors = ['Invalid credentials.']
+        this.isLoading = false
+
+        return
+      }
+
       this.setToken(response.data.authorization.token)
       this.setUser(response.data.user)
       this.isLoading = false
-      router.push('/')
+      router.push('/balance')
     },
     async logout() {
+      this.isLoading = true
+      await httpClient.post('/auth/logout')
       localStorage.removeItem(TOKEN_KEY)
       localStorage.removeItem(USER_KEY)
-      await httpClient.post('/auth/logout')
+      this.isLoading = false
       router.push('/login')
     },
   },

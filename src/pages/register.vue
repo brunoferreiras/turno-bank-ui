@@ -1,15 +1,25 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import logo from '@/assets/logo.svg?raw'
+import { useRegisterStore } from '@/store/register'
 
 const form = ref({
-  username: '',
-  email: '',
-  password: '',
-  privacyPolicies: false,
+  name: 'Bruno',
+  username: 'brunoferreiras',
+  email: 'bruno@email.com',
+  password: '123123123',
+  passwordConfirmation: '123123123',
 })
 
 const isPasswordVisible = ref(false)
+const registerStore = useRegisterStore()
+
+const errors = computed(() => registerStore.errors)
+const isLoading = computed(() => registerStore.isLoading)
+
+const onSubmit = () => {
+  registerStore.register(form.value)
+}
 </script>
 
 <template>
@@ -39,19 +49,36 @@ const isPasswordVisible = ref(false)
         </p>
       </VCardText>
 
+      <VCardText v-if="errors.length">
+        <VAlert
+          v-for="(error, key) in errors"
+          :key="key"
+          color="error"
+          icon="$error"
+          :text="error"
+          closable
+        />
+      </VCardText>
+
       <VCardText>
-        <VForm @submit.prevent="$router.push('/')">
+        <VForm @submit.prevent="onSubmit">
           <VRow>
-            <!-- Username -->
+            <VCol cols="12">
+              <VTextField
+                v-model="form.name"
+                autofocus
+                label="Name"
+                placeholder="Name"
+              />
+            </VCol>
             <VCol cols="12">
               <VTextField
                 v-model="form.username"
                 autofocus
                 label="Username"
-                placeholder="Johndoe"
+                placeholder="Username"
               />
             </VCol>
-            <!-- email -->
             <VCol cols="12">
               <VTextField
                 v-model="form.email"
@@ -61,7 +88,6 @@ const isPasswordVisible = ref(false)
               />
             </VCol>
 
-            <!-- password -->
             <VCol cols="12">
               <VTextField
                 v-model="form.password"
@@ -71,9 +97,22 @@ const isPasswordVisible = ref(false)
                 :append-inner-icon="isPasswordVisible ? 'bx-hide' : 'bx-show'"
                 @click:append-inner="isPasswordVisible = !isPasswordVisible"
               />
+            </VCol>
+            <VCol cols="12">
+              <VTextField
+                v-model="form.passwordConfirmation"
+                label="Password Confirmation"
+                placeholder="············"
+                :type="isPasswordVisible ? 'text' : 'password'"
+                :append-inner-icon="isPasswordVisible ? 'bx-hide' : 'bx-show'"
+                @click:append-inner="isPasswordVisible = !isPasswordVisible"
+              />
+            </VCol>
 
+            <VCol cols="12">
               <VBtn
                 class="mt-4"
+                :loading="isLoading"
                 block
                 type="submit"
               >
