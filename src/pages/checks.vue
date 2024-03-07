@@ -4,6 +4,7 @@ import { format } from 'date-fns'
 
 import { useChecksStore } from '@/store/checks'
 import TransactionCard from '@/components/TransactionCard.vue'
+import CreateCheckModal from '@/components/CreateCheckModal.vue'
 
 const checksStore = useChecksStore()
 
@@ -35,6 +36,7 @@ const loadChecks = data => {
 
 <template>
   <VRow>
+    <CreateCheckModal />
     <VCol cols="12">
       <VCard
         density="compact"

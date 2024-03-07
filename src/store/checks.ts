@@ -15,6 +15,12 @@ export interface ChecksRequest {
   status: string
 }
 
+export interface CreateCheckRequest {
+  image: File
+  amount: number
+  description: string
+}
+
 export interface PaginationResponse {
   current_page: number
   last_page: number
@@ -58,6 +64,23 @@ export const useChecksStore = defineStore('checks', {
         total: data.total,
         per_page: data.per_page,
       })
+      this.isLoading = false
+    },
+    async storeCheck(payload: CreateCheckRequest) {
+      this.isLoading = true
+
+      const data = new FormData()
+
+      data.append('image', payload.image)
+      data.append('amount', payload.amount.toString())
+      data.append('description', payload.description)
+
+      await httpClient.post('/deposits', data, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+
       this.isLoading = false
     },
   },
