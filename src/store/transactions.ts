@@ -1,5 +1,5 @@
-import { httpClient } from '@/services'
 import { defineStore } from 'pinia'
+import { httpClient } from '@/services'
 
 export interface ITransaction {
   id: number
@@ -25,10 +25,12 @@ export const useTransactionsStore = defineStore('transactions', {
       this.transactions = transactions
     },
     async getTransactions() {
-      this.isLoading = true;
+      this.isLoading = true
+
       const { data } = await httpClient.get('/accounts/transactions')
+
       this.setTransactions(data)
-      this.isLoading = false;
+      this.isLoading = false
     },
-  }
+  },
 })

@@ -1,5 +1,5 @@
-import { httpClient } from '@/services'
 import { defineStore } from 'pinia'
+import { httpClient } from '@/services'
 
 export interface BalanceState {
   balance: number
@@ -23,10 +23,12 @@ export const useBalanceStore = defineStore('balance', {
       this.total_expenses = total_expenses
     },
     async getBalance() {
-      this.isLoading = true;
+      this.isLoading = true
+
       const { data: { balance, total_incomes, total_expenses } } = await httpClient.get('/accounts/balance')
+
       this.setInfo(balance, total_incomes, total_expenses)
-      this.isLoading = false;
+      this.isLoading = false
     },
-  }
+  },
 })

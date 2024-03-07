@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import logo from '@/assets/logo.svg?raw'
-import { ref } from 'vue';
 
 const form = ref({
   username: '',
@@ -14,11 +14,17 @@ const isPasswordVisible = ref(false)
 
 <template>
   <div class="auth-wrapper d-flex align-center justify-center pa-4">
-    <VCard class="auth-card pa-4 pt-7" max-width="448">
+    <VCard
+      class="auth-card pa-4 pt-7"
+      max-width="448"
+    >
       <VCardItem class="justify-center">
         <template #prepend>
           <div class="d-flex">
-            <div class="d-flex text-primary" v-html="logo" />
+            <div
+              class="d-flex text-primary"
+              v-html="logo"
+            />
           </div>
         </template>
 
@@ -38,29 +44,53 @@ const isPasswordVisible = ref(false)
           <VRow>
             <!-- Username -->
             <VCol cols="12">
-              <VTextField v-model="form.username" autofocus label="Username" placeholder="Johndoe" />
+              <VTextField
+                v-model="form.username"
+                autofocus
+                label="Username"
+                placeholder="Johndoe"
+              />
             </VCol>
             <!-- email -->
             <VCol cols="12">
-              <VTextField v-model="form.email" label="Email" placeholder="Your email" type="email" />
+              <VTextField
+                v-model="form.email"
+                label="Email"
+                placeholder="Your email"
+                type="email"
+              />
             </VCol>
 
             <!-- password -->
             <VCol cols="12">
-              <VTextField v-model="form.password" label="Password" placeholder="············"
+              <VTextField
+                v-model="form.password"
+                label="Password"
+                placeholder="············"
                 :type="isPasswordVisible ? 'text' : 'password'"
                 :append-inner-icon="isPasswordVisible ? 'bx-hide' : 'bx-show'"
-                @click:append-inner="isPasswordVisible = !isPasswordVisible" />
+                @click:append-inner="isPasswordVisible = !isPasswordVisible"
+              />
 
-              <VBtn class="mt-4" block type="submit">
+              <VBtn
+                class="mt-4"
+                block
+                type="submit"
+              >
                 Sign up
               </VBtn>
             </VCol>
 
             <!-- login instead -->
-            <VCol cols="12" class="text-center text-base">
+            <VCol
+              cols="12"
+              class="text-center text-base"
+            >
               <span>Already have an account?</span>
-              <RouterLink class="text-primary ms-2" to="/login">
+              <RouterLink
+                class="text-primary ms-2"
+                to="/login"
+              >
                 Sign in instead
               </RouterLink>
             </VCol>

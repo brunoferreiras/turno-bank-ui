@@ -69,6 +69,15 @@ export default defineConfig({
       '.vue',
     ],
   },
+  build: {
+    chunkSizeWarningLimit: 5000,
+  },
+  optimizeDeps: {
+    exclude: ['vuetify'],
+    entries: [
+      './src/**/*.vue',
+    ],
+  },
   server: {
     port: 3000,
   },

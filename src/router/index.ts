@@ -43,7 +43,7 @@ const router = createRouter({
         {
           path: 'profile',
           component: () => import('../pages/profile.vue'),
-        }
+        },
       ],
     },
     {
@@ -67,7 +67,7 @@ const router = createRouter({
     {
       path: '/:catchAll(.*)',
       component: () => import('../pages/404.vue'),
-    }
+    },
   ],
 })
 

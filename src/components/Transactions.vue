@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import chartInfo from '@/assets/images/cards/chart-info.png'
-import creditCardSuccess from '@/assets/images/cards/credit-card-success.png'
-import creditCardWarning from '@/assets/images/cards/credit-card-warning.png'
-import paypalError from '@/assets/images/cards/paypal-error.png'
-import walletPrimary from '@/assets/images/cards/wallet-primary.png'
+import chartInfo from '@images/cards/chart-info.png'
+import creditCardSuccess from '@images/cards/credit-card-success.png'
+import creditCardWarning from '@images/cards/credit-card-warning.png'
+import paypalError from '@images/cards/paypal-error.png'
+import walletPrimary from '@images/cards/wallet-primary.png'
 
 const transactions = [
   {
@@ -55,10 +55,18 @@ const transactions = [
   <VCard title="Transactions">
     <VCardText>
       <VList class="card-list">
-        <VListItem v-for="item in transactions" :key="item.paymentMethod">
-
+        <VListItem
+          v-for="item in transactions"
+          :key="item.paymentMethod"
+        >
           <template #prepend>
-            <VAvatar rounded variant="tonal" :color="item.color" :image="item.icon" class="me-3" />
+            <VAvatar
+              rounded
+              variant="tonal"
+              :color="item.color"
+              :image="item.icon"
+              class="me-3"
+            />
           </template>
 
           <VListItemSubtitle class="text-disabled mb-1">
@@ -71,7 +79,7 @@ const transactions = [
           <template #append>
             <VListItemAction>
               <span class="me-1">{{ item.amount > 0 ? `+$${Math.abs(item.amount)}` : `-$${Math.abs(item.amount)}`
-                }}</span>
+              }}</span>
               <span class="text-disabled">USD</span>
             </VListItemAction>
           </template>

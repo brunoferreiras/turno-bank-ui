@@ -147,7 +147,6 @@ const target = join(__dirname, 'icons-bundle.js');
 /**
  * Do stuff!
  */
-// eslint-disable-next-line sonarjs/cognitive-complexity
 (async function () {
   let bundle = commonJS
     ? `const { addCollection } = require('${component}');\n\n`

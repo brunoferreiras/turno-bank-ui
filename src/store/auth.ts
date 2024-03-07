@@ -1,5 +1,5 @@
-import { httpClient } from '@/services'
 import { defineStore } from 'pinia'
+import { httpClient } from '@/services'
 import router from '@/router'
 
 const USER_KEY = '@user'
@@ -13,7 +13,7 @@ export interface IUser {
 }
 
 export interface AuthState {
-  isLoading: boolean,
+  isLoading: boolean
   token: string | null
   user: IUser | null
 }
@@ -25,14 +25,15 @@ export const useAuthStore = defineStore('auth', {
     user: null,
   }),
   getters: {
-    isAuthenticated: function () {
+    isAuthenticated() {
       return !!this.getToken
     },
-    getToken: function () {
+    getToken() {
       return localStorage.getItem(TOKEN_KEY)
     },
-    getUser: function () {
+    getUser() {
       const user = localStorage.getItem(USER_KEY)
+
       return user ? JSON.parse(user) : null
     },
   },
@@ -46,11 +47,13 @@ export const useAuthStore = defineStore('auth', {
       localStorage.setItem(USER_KEY, JSON.stringify(user))
     },
     async login(username: string, password: string) {
-      this.isLoading = true;
+      this.isLoading = true
+
       const response = await httpClient.post('/auth/login', { username, password })
+
       this.setToken(response.data.authorization.token)
       this.setUser(response.data.user)
-      this.isLoading = false;
+      this.isLoading = false
       router.push('/')
     },
     async logout() {
@@ -58,6 +61,6 @@ export const useAuthStore = defineStore('auth', {
       localStorage.removeItem(USER_KEY)
       await httpClient.post('/auth/logout')
       router.push('/login')
-    }
-  }
+    },
+  },
 })
