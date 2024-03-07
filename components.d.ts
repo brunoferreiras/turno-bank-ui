@@ -7,10 +7,14 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    CardStatisticsVertical: typeof import('./src/components/CardStatisticsVertical.vue')['default']
     CustomTable: typeof import('./src/components/CustomTable.vue')['default']
+    DefaultCard: typeof import('./src/components/DefaultCard.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Table: typeof import('./src/components/table.vue')['default']
+    ThemeSwitcher: typeof import('./src/components/ThemeSwitcher.vue')['default']
+    Transactions: typeof import('./src/components/Transactions.vue')['default']
   }
 }

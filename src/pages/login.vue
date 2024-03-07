@@ -23,10 +23,10 @@
       </VCardText>
 
       <VCardText>
-        <VForm @submit.prevent="$router.push('/')">
+        <VForm @submit.prevent="onSubmit">
           <VRow>
             <VCol cols="12">
-              <VTextField v-model="form.username" autofocus placeholder="johndoe@username.com" label="username" type="username" />
+              <VTextField v-model="form.username" autofocus placeholder="Username" label="Username" type="username" />
             </VCol>
 
             <VCol cols="12">
@@ -60,10 +60,17 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import logo from '@/assets/logo.svg?raw'
+import { useAuthStore } from '@/store/auth';
 
 const form = ref({
-  username: '',
-  password: '',
+  username: 'customer',
+  password: 'password',
 })
 const isPasswordVisible = ref(false)
+
+const onSubmit = () => {
+  const authStore = useAuthStore()
+  const { username, password } = form.value
+  authStore.login(username, password)
+}
 </script>

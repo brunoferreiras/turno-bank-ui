@@ -39,10 +39,18 @@ import type {
 
 declare module 'vue-router/auto/routes' {
   export interface RouteNamedMap {
-    '/': RouteRecordInfo<'/', '/', Record<never, never>, Record<never, never>>,
-    '/dashboard': RouteRecordInfo<'/dashboard', '/dashboard', Record<never, never>, Record<never, never>>,
+    '/403': RouteRecordInfo<'/403', '/403', Record<never, never>, Record<never, never>>,
+    '/404': RouteRecordInfo<'/404', '/404', Record<never, never>, Record<never, never>>,
+    '/balance': RouteRecordInfo<'/balance', '/balance', Record<never, never>, Record<never, never>>,
+    '/checks': RouteRecordInfo<'/checks', '/checks', Record<never, never>, Record<never, never>>,
+    '/expenses': RouteRecordInfo<'/expenses', '/expenses', Record<never, never>, Record<never, never>>,
+    '/help': RouteRecordInfo<'/help', '/help', Record<never, never>, Record<never, never>>,
+    '/incomes': RouteRecordInfo<'/incomes', '/incomes', Record<never, never>, Record<never, never>>,
     '/login': RouteRecordInfo<'/login', '/login', Record<never, never>, Record<never, never>>,
+    '/notifications': RouteRecordInfo<'/notifications', '/notifications', Record<never, never>, Record<never, never>>,
+    '/profile': RouteRecordInfo<'/profile', '/profile', Record<never, never>, Record<never, never>>,
     '/register': RouteRecordInfo<'/register', '/register', Record<never, never>, Record<never, never>>,
+    '/settings': RouteRecordInfo<'/settings', '/settings', Record<never, never>, Record<never, never>>,
   }
 }
 

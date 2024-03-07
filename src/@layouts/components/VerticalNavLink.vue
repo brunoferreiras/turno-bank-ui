@@ -20,7 +20,6 @@ defineProps<{
         :icon="item.icon"
         class="nav-item-icon"
       />
-      <!-- 👉 Title -->
       <span class="nav-item-title">
         {{ item.title }}
       </span>

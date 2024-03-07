@@ -1,39 +1,28 @@
 <script lang="ts" setup>
-import VerticalNavSectionTitle from '@/@layouts/components/VerticalNavSectionTitle.vue'
 import VerticalNavLayout from '@layouts/components/VerticalNavLayout.vue'
 import VerticalNavLink from '@layouts/components/VerticalNavLink.vue'
 
 // Components
 import Footer from '@/layouts/components/Footer.vue'
-import NavbarThemeSwitcher from '@/layouts/components/NavbarThemeSwitcher.vue'
 import UserProfile from '@/layouts/components/UserProfile.vue'
 
 </script>
 
 <template>
   <VerticalNavLayout>
-    <!-- 👉 navbar -->
     <template #navbar="{ toggleVerticalOverlayNavActive }">
       <div class="d-flex h-100 align-center">
-        <!-- 👉 Vertical nav toggle in overlay mode -->
         <IconBtn class="ms-n3 d-lg-none" @click="toggleVerticalOverlayNavActive(true)">
           <VIcon icon="bx-menu" />
         </IconBtn>
 
         <VSpacer />
 
-        <NavbarThemeSwitcher class="me-2" />
-
         <UserProfile />
       </div>
     </template>
 
     <template #vertical-nav-content>
-      <VerticalNavLink :item="{
-      title: 'Dashboard',
-      icon: 'bx-home',
-      to: '/dashboard',
-    }" />
       <VerticalNavLink :item="{
       title: 'Balance',
       icon: 'mdi-scale-balance',
@@ -61,7 +50,7 @@ import UserProfile from '@/layouts/components/UserProfile.vue'
       <VerticalNavLink :item="{
       title: 'Notifications',
       icon: 'mdi-bell',
-      to: '/checks',
+      to: '/notifications',
     }" />
 
       <VerticalNavLink :item="{
@@ -79,14 +68,11 @@ import UserProfile from '@/layouts/components/UserProfile.vue'
       <VerticalNavLink :item="{
       title: 'Help',
       icon: 'mdi-help-circle',
-      to: '/helps',
+      to: '/help',
     }" />
     </template>
 
-    <!-- 👉 Pages -->
     <slot />
-
-    <!-- 👉 Footer -->
 
     <template #footer>
       <Footer />

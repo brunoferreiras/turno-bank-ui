@@ -46,7 +46,6 @@ const handleNavScroll = (evt: Event) => {
       'overlay-nav': mdAndDown,
     },
   ]">
-    <!-- 👉 Header -->
     <div class="nav-header">
       <slot name="nav-header">
         <RouterLink to="/" class="app-logo d-flex align-center gap-x-3 app-title-wrapper">
@@ -76,7 +75,6 @@ const handleNavScroll = (evt: Event) => {
 @use "@configured-variables" as variables;
 @use "@layouts/styles/mixins";
 
-// 👉 Vertical Nav
 .layout-vertical-nav {
   position: fixed;
   z-index: variables.$layout-vertical-nav-z-index;
@@ -119,14 +117,12 @@ const handleNavScroll = (evt: Event) => {
     white-space: nowrap;
   }
 
-  // 👉 Collapsed
   .layout-vertical-nav-collapsed & {
     &:not(.hovered) {
       inline-size: variables.$layout-vertical-nav-collapsed-width;
     }
   }
 
-  // 👉 Overlay nav
   &.overlay-nav {
     &:not(.visible) {
       transform: translateX(-#{variables.$layout-vertical-nav-width});
