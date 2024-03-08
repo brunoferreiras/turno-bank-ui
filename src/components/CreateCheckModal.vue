@@ -84,6 +84,7 @@ onMounted(() => {
                 variant="underlined"
                 number
                 required
+                autofocus
               />
               <small class="text-caption text-medium-emphasis">*The money will be deposited in your account once the
                 check
@@ -97,7 +98,6 @@ onMounted(() => {
                 prepend-icon="mdi-star"
                 variant="underlined"
                 required
-                autofocus
               />
             </VCol>
             <VCol cols="12">
@@ -107,7 +107,6 @@ onMounted(() => {
                 prepend-icon="mdi-image"
                 variant="underlined"
                 required
-                autofocus
                 @change="onFileChange"
               />
             </VCol>

@@ -74,7 +74,7 @@ export const useAuthStore = defineStore('auth', {
     },
     async logout() {
       this.isLoading = true
-      await httpClient.post('/auth/logout')
+      httpClient.post('/auth/logout')
       localStorage.removeItem(TOKEN_KEY)
       localStorage.removeItem(USER_KEY)
       this.isLoading = false
