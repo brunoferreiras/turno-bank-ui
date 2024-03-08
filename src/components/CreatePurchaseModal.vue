@@ -52,6 +52,13 @@ onMounted(() => {
         title="Purchase"
         density="compact"
       >
+        <template #append>
+          <VBtn
+            icon="mdi-close"
+            variant="text"
+            @click="dialog = false"
+          />
+        </template>
         <VCardText>
           <p class="mb-1">
             Current balance

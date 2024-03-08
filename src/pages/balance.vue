@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { computed, onMounted } from 'vue'
-import { format } from 'date-fns'
 import BalanceCard from '@/components/BalanceCard.vue'
 import AccountCard from '@/components/AccountCard.vue'
 
@@ -20,10 +19,7 @@ const total_expenses = computed(() => balanceStore.total_expenses)
 const isLoading = computed(() => transactionsStore.isLoading)
 
 const transactionsData = computed(() => transactionsStore.transactions?.map(transaction => ({
-  description: transaction.description,
-  created_at: format(new Date(transaction.created_at), 'MM/dd/yyyy'),
-  type: transaction.type,
-  amount: transaction.amount,
+  ...transaction,
 })))
 
 const pagination = computed(() => transactionsStore.pagination)
@@ -57,7 +53,7 @@ onMounted(async () => {
       <AccountCard
         type="income"
         :amount="total_incomes"
-        route="/incomes"
+        route="/checks"
       />
     </VCol>
     <VCol
@@ -87,9 +83,11 @@ onMounted(async () => {
         >
           <template #item="{ item }">
             <TransactionCard
+              :id="item.id"
               :amount="item.amount"
+              :account="{ id: item.account_id }"
               :description="item.description"
-              :type="item.type"
+              :variant="item.type"
               :created-at="item.created_at"
             />
           </template>

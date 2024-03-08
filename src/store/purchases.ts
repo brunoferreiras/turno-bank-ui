@@ -6,6 +6,15 @@ export interface IPurchase {
   description: string
   amount: number
   created_at: string
+  updated_at: string
+  account: {
+    id: number
+    user: {
+      id: number
+      name: string
+      email: string
+    }
+  }
 }
 
 export interface PurchasesRequest {

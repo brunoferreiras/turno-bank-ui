@@ -5,8 +5,18 @@ export interface ICheck {
   id: number
   description: string
   amount: number
+  image: string
   type: string
   created_at: string
+  updated_at: string
+  account: {
+    id: number
+    user: {
+      id: number
+      name: string
+      email: string
+    }
+  }
 }
 
 export interface ChecksRequest {
@@ -36,6 +46,8 @@ export interface ChecksState {
   checks: ChecksResponse | null
   pagination: PaginationResponse | null
   isLoading: boolean
+  openModal: boolean
+  currentCheck: ICheck | null
 }
 
 export const useChecksStore = defineStore('checks', {
@@ -43,6 +55,8 @@ export const useChecksStore = defineStore('checks', {
     checks: null,
     pagination: null,
     isLoading: false,
+    openModal: false,
+    currentCheck: null,
   }),
   getters: {},
   actions: {
@@ -84,7 +98,7 @@ export const useChecksStore = defineStore('checks', {
       this.isLoading = false
     },
 
-    async getPendings({ page, perPage }: any) {
+    async getPendings({ page, perPage }: any = { page: 1, perPage: 15 }) {
       this.isLoading = true
 
       const { data } = await httpClient.get(`/deposits/pendings?page=${page}&per_page=${perPage}`)
@@ -96,6 +110,24 @@ export const useChecksStore = defineStore('checks', {
         total: data.total,
         per_page: data.per_page,
       })
+      this.isLoading = false
+    },
+    openModalCheck(check: ICheck) {
+      this.openModal = true
+      this.currentCheck = check
+    },
+    closeModalCheck() {
+      this.openModal = false
+      this.currentCheck = null
+    },
+
+    async approveCheck(id: number, status: string) {
+      this.isLoading = true
+
+      await httpClient.patch(`/deposits/${id}/status`, {
+        status,
+      })
+
       this.isLoading = false
     },
   },

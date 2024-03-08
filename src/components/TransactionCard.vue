@@ -3,44 +3,68 @@ import { format } from 'date-fns'
 import { computed } from 'vue'
 
 interface Props {
-  amount: number
+  id: number
+  amount: string | number
+  account: {
+    id: number
+    user: {
+      name: string
+      email: string
+    }
+  }
   description: string
-  type: 'income' | 'expense'
+  variant: 'income' | 'expense' | 'pending'
   createdAt: string
+  click?: () => void
 }
 
 const props = defineProps<Props>()
 
-const isIncome = computed(() => {
-  return props.type === 'income'
-})
+const handleClick = () => {
+  if (props.click)
+    props.click({ ...props })
+}
 
 const formattedDate = computed(() => {
   return format(new Date(props.createdAt), 'MM/dd/yyyy, hh:mm a')
 })
+
+const colors = {
+  income: 'text-success',
+  expense: 'text-error',
+  pending: 'text-info',
+}
+
+const formattedAmount = computed(() => {
+  if (props.amount === undefined)
+    return '$ 0.00'
+
+  const nf = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  })
+
+  return `${props.variant === 'expense' ? '- ' : ''}${nf.format(props.amount)}`
+})
 </script>
 
 <template>
-  <VCard>
-    <VRow
-      class="justify-space-between"
-      no-gutters
-    >
-      <VCol cols="6">
-        <VCardText>
-          <p class="text-subtitle-1 text-wrap mb-3 font-weight-bold">
-            {{ props.description }}
-          </p>
-          <p>{{ formattedDate }}</p>
-        </VCardText>
-      </VCol>
-      <VCol cols="6">
-        <VCardText class="text-right">
-          <p class="text-h6 text-no-wrap mb-3 red">
-            {{ !isIncome ? '-' : '' }}$ {{ props?.amount || 0 }}
-          </p>
-        </VCardText>
-      </VCol>
-    </VRow>
-  </VCard>
+  <VList :key="props.id">
+    <VListItem @click="handleClick">
+      <VListItemTitle class="text-subtitle-1 font-weight-bold">
+        {{ props.description }}
+      </VListItemTitle>
+      <VListItemSubtitle>
+        {{ formattedDate }}
+      </VListItemSubtitle>
+      <template #append>
+        <span
+          class="text-subtitle-1 text-no-wrap mb-3 font-weight-bold"
+          :class="colors[props.variant]"
+        >{{
+          formattedAmount }}</span>
+      </template>
+    </VListItem>
+    <VDivider />
+  </VList>
 </template>

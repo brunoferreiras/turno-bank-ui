@@ -8,6 +8,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AccountCard: typeof import('./src/components/AccountCard.vue')['default']
+    ApproveCheckModal: typeof import('./src/components/ApproveCheckModal.vue')['default']
     BalanceCard: typeof import('./src/components/BalanceCard.vue')['default']
     CardStatisticsVertical: typeof import('./src/components/CardStatisticsVertical.vue')['default']
     copy: typeof import('./src/components/CreateCheckModal copy.vue')['default']

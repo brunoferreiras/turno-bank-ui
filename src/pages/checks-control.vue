@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { format } from 'date-fns'
-
 import { useChecksStore } from '@/store/checks'
 import TransactionCard from '@/components/TransactionCard.vue'
+import ApproveCheckModal from '@/components/ApproveCheckModal.vue'
 
 const checksStore = useChecksStore()
 
@@ -12,15 +11,15 @@ const isLoading = computed(() => checksStore.isLoading)
 const checksData = computed(() => isLoading.value
   ? []
   : checksStore.checks?.map(check => ({
-    id: check.id,
-    amount: check.amount,
-    description: check.description,
-    created_at: format(new Date(check.created_at), 'MM/dd/yyyy'),
-    type: 'income',
-    status: check.status,
+    ...check,
+    type: 'pending',
   })))
 
 const pagination = computed(() => checksStore.pagination)
+
+const selectCheck = check => {
+  checksStore.openModalCheck(check)
+}
 
 const loadChecks = data => {
   checksStore.getPendings({
@@ -32,6 +31,7 @@ const loadChecks = data => {
 
 <template>
   <VRow>
+    <ApproveCheckModal />
     <VCol cols="12">
       <VCard
         density="compact"
@@ -49,10 +49,13 @@ const loadChecks = data => {
         >
           <template #item="{ item }">
             <TransactionCard
+              :id="item.id"
               :amount="item.amount"
+              :account="item.account"
               :description="item.description"
-              :type="item.type"
+              :variant="item.type"
               :created-at="item.created_at"
+              :click="() => selectCheck(item)"
             />
           </template>
         </VDataTable>

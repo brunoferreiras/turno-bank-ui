@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { format } from 'date-fns'
 
 import { useChecksStore } from '@/store/checks'
 import TransactionCard from '@/components/TransactionCard.vue'
@@ -15,12 +14,8 @@ const isLoading = computed(() => checksStore.isLoading)
 const checksData = computed(() => isLoading.value
   ? []
   : checksStore.checks?.map(check => ({
-    id: check.id,
-    amount: check.amount,
-    description: check.description,
-    created_at: format(new Date(check.created_at), 'MM/dd/yyyy'),
-    type: 'income',
-    status: check.status,
+    ...check,
+    type: 'pending',
   })))
 
 const pagination = computed(() => checksStore.pagination)
@@ -76,9 +71,11 @@ const loadChecks = data => {
             >
               <template #item="{ item }">
                 <TransactionCard
+                  :id="item.id"
                   :amount="item.amount"
+                  :account="{ id: item.account_id }"
                   :description="item.description"
-                  :type="item.type"
+                  :variant="item.type"
                   :created-at="item.created_at"
                 />
               </template>

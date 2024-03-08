@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { format } from 'date-fns'
 
 import { usePurchasesStore } from '@/store/purchases'
 import TransactionCard from '@/components/TransactionCard.vue'
@@ -13,12 +12,8 @@ const isLoading = computed(() => purchasesStore.isLoading)
 const purchasesData = computed(() => isLoading.value
   ? []
   : purchasesStore.purchases?.map(purchase => ({
-    id: purchase.id,
-    amount: purchase.amount,
-    description: purchase.description,
-    created_at: format(new Date(purchase.created_at), 'MM/dd/yyyy'),
-    type: 'income',
-    status: purchase.status,
+    ...purchase,
+    type: 'expense',
   })))
 
 const pagination = computed(() => purchasesStore.pagination)
@@ -51,9 +46,11 @@ const loadPurchases = data => {
         >
           <template #item="{ item }">
             <TransactionCard
+              :id="item.id"
               :amount="item.amount"
+              :account="{ id: item.account_id }"
               :description="item.description"
-              :type="item.type"
+              :variant="item.type"
               :created-at="item.created_at"
             />
           </template>

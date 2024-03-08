@@ -28,6 +28,7 @@ const isIncome = computed(() => {
       <VBtn
         color="primary"
         :to="props.route"
+        link
       >
         <VIcon
           left
