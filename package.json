@@ -8,15 +8,18 @@
     "build:icons": "tsc -b src/@iconify && node src/@iconify/build-icons.js",
     "postinstall": "npm run build:icons",
     "typecheck": "vue-tsc --noEmit",
-    "lint": "eslint . -c .eslintrc.js --fix --ext .ts,.js,.vue,.tsx,.jsx"
+    "lint": "eslint . -c .eslintrc.js --fix --ext .ts,.js,.vue,.tsx,.jsx",
+    "start": "node server.js"
   },
   "dependencies": {
+    "@fastify/static": "^7.0.1",
     "@mdi/font": "7.0.96",
     "@types/md5": "^2.3.5",
     "@vueuse/core": "^10.9.0",
     "axios": "^1.6.7",
     "core-js": "^3.34.0",
     "date-fns": "^3.3.1",
+    "fastify": "^4.26.2",
     "md5": "^2.3.0",
     "roboto-fontface": "*",
     "vue": "^3.3.0",

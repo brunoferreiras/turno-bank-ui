@@ -24,3 +24,13 @@ make up
 
 // You can access the api in: http://localhost:3000/
 ```
+
+### Credentials to sign in of Admin:
+
+- Endpoint UI: [https://turno.brunoferreiras.dev/login](https://turno.brunoferreiras.dev/login)
+- Endpoint API: [https://turno-api.brunoferreiras.dev/api](https://turno-api.brunoferreiras.dev/api)
+
+```bash
+Username: admin
+Password: password
+```
