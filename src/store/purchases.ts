@@ -82,7 +82,7 @@ export const usePurchasesStore = defineStore('purchases', {
       const response = await httpClient.post('/purchases', payload)
 
       if (response.status === 201)
-        notifications.success('Check created successfully.')
+        notifications.success('Purchase created successfully.')
       else
         notifications.error('An error occurred while trying to create the check.')
 

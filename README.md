@@ -34,3 +34,6 @@ make up
 Username: admin
 Password: password
 ```
+
+### Demo Overview
+- ./docs/turnobank-demo.mp4 => Video of the application running
