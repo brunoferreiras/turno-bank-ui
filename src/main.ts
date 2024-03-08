@@ -10,6 +10,7 @@ import { loadFonts } from '@/plugins/webfontloader'
 import '@core/scss/template/index.scss'
 import '@layouts/styles/index.scss'
 import '@styles/styles.scss'
+import 'vue-toast-notification/dist/theme-sugar.css'
 
 // Plugins
 import { registerPlugins } from '@/plugins'

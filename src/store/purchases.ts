@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { useNotification } from '../@core/utils'
 import { httpClient } from '@/services'
 
 export interface IPurchase {
@@ -76,7 +77,14 @@ export const usePurchasesStore = defineStore('purchases', {
     async storePurchase(payload: CreatePurchaseRequest) {
       this.isLoading = true
 
-      await httpClient.post('/purchases', payload)
+      const notifications = useNotification()
+
+      const response = await httpClient.post('/purchases', payload)
+
+      if (response.status === 201)
+        notifications.success('Check created successfully.')
+      else
+        notifications.error('An error occurred while trying to create the check.')
 
       this.isLoading = false
     },

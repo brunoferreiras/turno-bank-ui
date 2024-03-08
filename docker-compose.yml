@@ -1,0 +1,28 @@
+version: '3.7'
+
+networks:
+  turnobank-network:
+    external: true
+    name: turno-test_turnobank_network
+
+services:
+  ui:
+    container_name: turnobank-ui
+    build:
+      context: .
+      dockerfile: ./.docker/Dockerfile
+      target: build-stage
+      args:
+        BUILDPLATFORM: linux/arm64 # or linux/amd64
+    ports:
+      - '3000:3000'
+    volumes:
+      - '.:/app'
+      - /app/node_modules
+    command: npm run dev
+    environment:
+      NODE_TLS_REJECT_UNAUTHORIZED: 0
+      VITE_BASE_URL: http://nginx
+    restart: unless-stopped
+    networks:
+      - turnobank-network

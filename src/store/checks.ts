@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { useNotification } from '../@core/utils'
 import { httpClient } from '@/services'
 
 export interface ICheck {
@@ -83,17 +84,24 @@ export const useChecksStore = defineStore('checks', {
     async storeCheck(payload: CreateCheckRequest) {
       this.isLoading = true
 
+      const notifications = useNotification()
+
       const data = new FormData()
 
       data.append('image', payload.image)
       data.append('amount', payload.amount.toString())
       data.append('description', payload.description)
 
-      await httpClient.post('/deposits', data, {
+      const response = await httpClient.post('/deposits', data, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       })
+
+      if (response.status === 201)
+        notifications.success('Check created successfully.')
+      else
+        notifications.error('An error occurred while trying to create the check.')
 
       this.isLoading = false
     },
@@ -124,9 +132,16 @@ export const useChecksStore = defineStore('checks', {
     async approveCheck(id: number, status: string) {
       this.isLoading = true
 
-      await httpClient.patch(`/deposits/${id}/status`, {
+      const notifications = useNotification()
+
+      const response = await httpClient.patch(`/deposits/${id}/status`, {
         status,
       })
+
+      if (response.status === 200)
+        notifications.success('Check updated successfully.')
+      else
+        notifications.error('An error occurred while trying to update the check.')
 
       this.isLoading = false
     },
