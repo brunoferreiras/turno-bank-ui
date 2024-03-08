@@ -4,8 +4,8 @@ import logo from '@/assets/logo.svg?raw'
 import { useAuthStore } from '@/store/auth'
 
 const form = ref({
-  username: 'customer',
-  password: 'password',
+  username: '',
+  password: '',
 })
 
 const authStore = useAuthStore()

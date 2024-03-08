@@ -4,11 +4,11 @@ import logo from '@/assets/logo.svg?raw'
 import { useRegisterStore } from '@/store/register'
 
 const form = ref({
-  name: 'Bruno',
-  username: 'brunoferreiras',
-  email: 'bruno@email.com',
-  password: '123123123',
-  passwordConfirmation: '123123123',
+  name: '',
+  username: '',
+  email: '',
+  password: '',
+  passwordConfirmation: '',
 })
 
 const isPasswordVisible = ref(false)

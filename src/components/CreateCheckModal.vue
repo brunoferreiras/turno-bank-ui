@@ -8,9 +8,9 @@ const checksStore = useChecksStore()
 const accountAmount = computed(() => balanceStore.balance)
 
 const dialog = ref(false)
-const amount = ref(0)
+const amount = ref()
 const image = ref()
-const description = ref('')
+const description = ref()
 
 const onSubmit = () => {
   checksStore.storeCheck({

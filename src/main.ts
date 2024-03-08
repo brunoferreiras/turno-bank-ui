@@ -4,7 +4,6 @@
  * Bootstraps Vuetify and other plugins then mounts the App`
  */
 import '@/@iconify/icons-bundle'
-import { loadFonts } from '@/plugins/webfontloader'
 
 // Styles
 import '@core/scss/template/index.scss'
@@ -13,15 +12,13 @@ import '@styles/styles.scss'
 import 'vue-toast-notification/dist/theme-sugar.css'
 
 // Plugins
+import { createApp } from 'vue'
+import App from './App.vue'
 import { registerPlugins } from '@/plugins'
 
 // Components
-import App from './App.vue'
 
 // Composables
-import { createApp } from 'vue'
-
-loadFonts()
 
 const app = createApp(App)
 

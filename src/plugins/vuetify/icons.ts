@@ -1,6 +1,7 @@
 import { Icon } from '@iconify/vue'
 import type { IconAliases } from 'vuetify'
 
+// @ts-expect-error - This is a valid import
 const aliases: IconAliases = {
   collapse: 'bx-chevron-up',
   complete: 'bx-check',
@@ -41,7 +42,8 @@ const aliases: IconAliases = {
 }
 
 export const iconify = {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
+  // @ts-expect-error - This is a valid import
   component: (props: any) => h(Icon, props),
 }
 

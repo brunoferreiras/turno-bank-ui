@@ -24,31 +24,18 @@ export interface AuthState {
 export const useAuthStore = defineStore('auth', {
   state: (): AuthState => ({
     isLoading: false,
-    token: null,
-    user: null,
+    token: localStorage.getItem(TOKEN_KEY) || null,
+    user: JSON.parse(localStorage.getItem(USER_KEY) || 'null') || null,
     errors: [],
     allowedMenu: [],
   }),
   getters: {
     isAuthenticated: state => !!state.token,
     isAdmin: state => state.user?.type === 'admin' || false,
-    getToken(state) {
-      if (!state.token)
-        return localStorage.getItem(TOKEN_KEY)
-
-      return state.token
-    },
-    getUser(state) {
-      if (!state.user) {
-        const user = localStorage.getItem(USER_KEY)
-
-        return user ? JSON.parse(user) : null
-      }
-
-      return state.user
-    },
-    allowedMenuItems() {
-      const user: IUser = this.getUser
+    getToken: state => state.token,
+    getUser: state => state.user,
+    allowedMenuItems(state) {
+      const user: any = state.user || null
 
       if (!user)
         return []

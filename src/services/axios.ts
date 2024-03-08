@@ -28,7 +28,7 @@ httpClient.interceptors.response.use(
     }
     let errorMessages = []
     if (error.response.status === 422)
-      errorMessages = Object.values(error.response.data.errors).map((error: any) => error.join(', '))
+      errorMessages = Object.values(error.response.data.errors).map((errorMessage: any) => errorMessage.join(', '))
 
     return {
       ...error.response,
