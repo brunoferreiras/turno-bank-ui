@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { httpClient } from '@/services'
 import router from '@/router'
+import { adminMenu, customerMenu } from '@/router/menu'
 
 const USER_KEY = '@user'
 const TOKEN_KEY = '@token'
@@ -17,6 +18,7 @@ export interface AuthState {
   token: string | null
   user: IUser | null
   errors: string[]
+  allowedMenu: string[]
 }
 
 export const useAuthStore = defineStore('auth', {
@@ -25,18 +27,33 @@ export const useAuthStore = defineStore('auth', {
     token: null,
     user: null,
     errors: [],
+    allowedMenu: [],
   }),
   getters: {
-    isAuthenticated() {
-      return !!this.getToken
-    },
-    getToken() {
-      return localStorage.getItem(TOKEN_KEY)
-    },
-    getUser() {
-      const user = localStorage.getItem(USER_KEY)
+    isAuthenticated: state => !!state.token,
+    isAdmin: state => state.user?.type === 'admin' || false,
+    getToken(state) {
+      if (!state.token)
+        return localStorage.getItem(TOKEN_KEY)
 
-      return user ? JSON.parse(user) : null
+      return state.token
+    },
+    getUser(state) {
+      if (!state.user) {
+        const user = localStorage.getItem(USER_KEY)
+
+        return user ? JSON.parse(user) : null
+      }
+
+      return state.user
+    },
+    allowedMenuItems() {
+      const user: IUser = this.getUser
+
+      if (!user)
+        return []
+
+      return user.type === 'admin' ? adminMenu : customerMenu
     },
   },
   actions: {
@@ -63,7 +80,10 @@ export const useAuthStore = defineStore('auth', {
       this.setToken(response.data.authorization.token)
       this.setUser(response.data.user)
       this.isLoading = false
-      router.push('/balance')
+      if (this.isAdmin)
+        router.push('/checks-control')
+      else
+        router.push('/balance')
     },
     async logout() {
       this.isLoading = true

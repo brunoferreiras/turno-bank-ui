@@ -2,29 +2,28 @@
 import { computed } from 'vue'
 import { format } from 'date-fns'
 
-import { usePurchasesStore } from '@/store/purchases'
+import { useChecksStore } from '@/store/checks'
 import TransactionCard from '@/components/TransactionCard.vue'
-import CreatePurchaseModal from '@/components/CreatePurchaseModal.vue'
 
-const purchasesStore = usePurchasesStore()
+const checksStore = useChecksStore()
 
-const isLoading = computed(() => purchasesStore.isLoading)
+const isLoading = computed(() => checksStore.isLoading)
 
-const purchasesData = computed(() => isLoading.value
+const checksData = computed(() => isLoading.value
   ? []
-  : purchasesStore.purchases?.map(purchase => ({
-    id: purchase.id,
-    amount: purchase.amount,
-    description: purchase.description,
-    created_at: format(new Date(purchase.created_at), 'MM/dd/yyyy'),
+  : checksStore.checks?.map(check => ({
+    id: check.id,
+    amount: check.amount,
+    description: check.description,
+    created_at: format(new Date(check.created_at), 'MM/dd/yyyy'),
     type: 'income',
-    status: purchase.status,
+    status: check.status,
   })))
 
-const pagination = computed(() => purchasesStore.pagination)
+const pagination = computed(() => checksStore.pagination)
 
-const loadPurchases = data => {
-  purchasesStore.getPurchases({
+const loadChecks = data => {
+  checksStore.getPendings({
     page: data.page,
     perPage: data.itemsPerPage,
   })
@@ -33,21 +32,20 @@ const loadPurchases = data => {
 
 <template>
   <VRow>
-    <CreatePurchaseModal />
     <VCol cols="12">
       <VCard
         density="compact"
-        title="Expenses"
+        title="Checks Control"
       >
         <VDataTable
           :headers="[]"
           density="compact"
-          :items="purchasesData"
+          :items="checksData"
           :items-length="pagination?.total"
           :loading="isLoading"
           :items-per-page="pagination?.per_page || 15"
           :page="pagination?.current_page || 1"
-          @update:options="loadPurchases"
+          @update:options="loadChecks"
         >
           <template #item="{ item }">
             <TransactionCard

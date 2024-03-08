@@ -7,7 +7,10 @@ import AccountCard from '@/components/AccountCard.vue'
 import { useBalanceStore } from '@/store/balance'
 import { useTransactionsStore } from '@/store/transactions'
 import TransactionCard from '@/components/TransactionCard.vue'
+import { useAuthStore } from '@/store/auth'
+import router from '@/router'
 
+const { isAdmin } = useAuthStore()
 const balanceStore = useBalanceStore()
 const transactionsStore = useTransactionsStore()
 
@@ -33,6 +36,9 @@ const loadTransactions = data => {
 }
 
 onMounted(async () => {
+  if (isAdmin)
+    router.push('/checks-control')
+
   Promise.all([
     balanceStore.getBalance(),
   ])

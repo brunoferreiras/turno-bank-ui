@@ -41,6 +41,13 @@ const router = createRouter({
           component: () => import('../pages/help.vue'),
         },
         {
+          path: 'checks-control',
+          meta: {
+            admin: true,
+          },
+          component: () => import('../pages/checks-control.vue'),
+        },
+        {
           path: 'profile',
           component: () => import('../pages/profile.vue'),
         },

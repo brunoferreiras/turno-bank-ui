@@ -11,11 +11,9 @@ export const httpClient = axios.create({
 })
 
 httpClient.interceptors.request.use(config => {
-  const token = localStorage.getItem('@token')
-  config.headers.Authorization = `Bearer ${token}`;
-  // const authStore = useAuthStore()
-  // if (authStore.token)
-  //   config.headers.Authorization = `Bearer ${authStore.token}`
+  const authStore = useAuthStore()
+  if (authStore.token)
+    config.headers.Authorization = `Bearer ${authStore.token}`
 
   return config
 })
@@ -24,9 +22,9 @@ httpClient.interceptors.response.use(
   response => response,
   error => {
     if (error.response.status === 401) {
-      // const { isAuthenticated, logout } = useAuthStore()
-      // if (isAuthenticated)
-      //   logout()
+      const { isAuthenticated, logout } = useAuthStore()
+      if (isAuthenticated)
+        logout()
     }
     let errorMessages = []
     if (error.response.status === 422)

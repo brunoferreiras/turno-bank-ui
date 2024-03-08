@@ -1,10 +1,16 @@
 <script lang="ts" setup>
+import { computed } from 'vue'
 import VerticalNavLayout from '@layouts/components/VerticalNavLayout.vue'
 import VerticalNavLink from '@layouts/components/VerticalNavLink.vue'
 
 // Components
 import Footer from '@/layouts/components/Footer.vue'
 import UserProfile from '@/layouts/components/UserProfile.vue'
+import { useAuthStore } from '@/store/auth'
+
+const authStore = useAuthStore()
+
+const allowedMenu = computed(() => authStore.allowedMenuItems)
 </script>
 
 <template>
@@ -26,67 +32,9 @@ import UserProfile from '@/layouts/components/UserProfile.vue'
 
     <template #vertical-nav-content>
       <VerticalNavLink
-        :item="{
-          title: 'Balance',
-          icon: 'mdi-scale-balance',
-          to: '/balance',
-        }"
-      />
-
-      <VerticalNavLink
-        :item="{
-          title: 'Incomes',
-          icon: 'mdi-arrow-up',
-          to: '/incomes',
-        }"
-      />
-
-      <VerticalNavLink
-        :item="{
-          title: 'Expenses',
-          icon: 'mdi-arrow-down',
-          to: '/expenses',
-        }"
-      />
-
-      <VerticalNavLink
-        :item="{
-          title: 'Checks',
-          icon: 'mdi-card-bulleted',
-          to: '/checks',
-        }"
-      />
-
-      <VerticalNavLink
-        :item="{
-          title: 'Notifications',
-          icon: 'mdi-bell',
-          to: '/notifications',
-        }"
-      />
-
-      <VerticalNavLink
-        :item="{
-          title: 'Profile',
-          icon: 'mdi-account',
-          to: '/profile',
-        }"
-      />
-
-      <VerticalNavLink
-        :item="{
-          title: 'Settings',
-          icon: 'mdi-cog',
-          to: '/settings',
-        }"
-      />
-
-      <VerticalNavLink
-        :item="{
-          title: 'Help',
-          icon: 'mdi-help-circle',
-          to: '/help',
-        }"
+        v-for="item in allowedMenu"
+        :key="item.title"
+        :item="item"
       />
     </template>
 

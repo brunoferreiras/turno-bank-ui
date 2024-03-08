@@ -83,5 +83,20 @@ export const useChecksStore = defineStore('checks', {
 
       this.isLoading = false
     },
+
+    async getPendings({ page, perPage }: any) {
+      this.isLoading = true
+
+      const { data } = await httpClient.get(`/deposits/pendings?page=${page}&per_page=${perPage}`)
+
+      this.setChecks(data.data)
+      this.setPagination({
+        current_page: data.current_page,
+        last_page: data.last_page,
+        total: data.total,
+        per_page: data.per_page,
+      })
+      this.isLoading = false
+    },
   },
 })
